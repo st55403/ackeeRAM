@@ -3,13 +3,19 @@ package eu.golovkov.ackeeram
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import eu.golovkov.ackeeram.screens.NavGraphs
+import eu.golovkov.ackeeram.screens.appCurrentDestinationAsState
+import eu.golovkov.ackeeram.ui.RAMBottomBar
 import eu.golovkov.ackeeram.ui.theme.AckeeRAMTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,30 +23,44 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AckeeRAMTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                App()
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+private fun App() {
+    val engine = rememberAnimatedNavHostEngine()
+    val navController = engine.rememberNavController()
+    val currentDestination by navController.appCurrentDestinationAsState()
+    // TODO: need to check this IMO character detail screen should not display bottom bar
+    val showBottomBarWithFab = BottomBarDestination.containDestination(currentDestination)
+
+    Scaffold(
+        bottomBar = {
+            if (showBottomBarWithFab) {
+                RAMBottomBar(
+                    navController = navController,
+                )
+            }
+        },
+    ) { paddingValues ->
+        DestinationsNavHost(
+            navGraph = NavGraphs.root,
+            startRoute = NavGraphs.root.startRoute,
+            engine = engine,
+            navController = navController,
+            modifier = Modifier.padding(paddingValues)
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+private fun GreetingPreview() {
     AckeeRAMTheme {
-        Greeting("Android")
+        App()
     }
 }
