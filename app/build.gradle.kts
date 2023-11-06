@@ -62,6 +62,8 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.compose.destination.core)
+    implementation(libs.bundles.ktor)
+    implementation(libs.paging.compose)
     ksp(libs.compose.destination.ksp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

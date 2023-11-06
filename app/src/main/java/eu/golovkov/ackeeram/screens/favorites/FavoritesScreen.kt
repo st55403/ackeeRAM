@@ -1,4 +1,4 @@
-package eu.golovkov.ackeeram.screens
+package eu.golovkov.ackeeram.screens.favorites
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -10,40 +10,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import eu.golovkov.ackeeram.R
 
-@RootNavGraph(start = true)
 @Destination()
 @Composable
-fun CharactersScreen() {
-    Characters()
+fun FavoritesScreen() {
+    Favorites()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Characters() {
+private fun Favorites() {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.characters_title)
+                        text = stringResource(R.string.favorites_title)
                     )
                 }
             )
         }
     ) {
         Text(
-            text = stringResource(R.string.characters_title),
+            text = stringResource(R.string.favorites_title),
             modifier = Modifier.padding(it)
         )
     }
 }
 
-// TODO: create custom preview annotation with light and dark theme
 @Preview
 @Composable
-private fun CharactersPreview() {
+private fun FavoritesPreview() {
 
 }
