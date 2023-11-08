@@ -1,4 +1,4 @@
-package eu.golovkov.ackeeram.screens.charactersdetails
+package eu.golovkov.ackeeram.screens.characterdetails
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
