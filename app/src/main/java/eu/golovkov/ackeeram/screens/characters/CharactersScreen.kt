@@ -45,7 +45,7 @@ import eu.golovkov.ackeeram.R
 import eu.golovkov.ackeeram.StatefulLayout
 import eu.golovkov.ackeeram.asData
 import eu.golovkov.ackeeram.model.CharacterRAM
-import eu.golovkov.ackeeram.screens.destinations.CharactersDetailsScreenDestination
+import eu.golovkov.ackeeram.screens.destinations.CharacterDetailsScreenDestination
 import eu.golovkov.ackeeram.ui.theme.AckeeRAMTheme
 import eu.golovkov.ackeeram.ui.theme.RAMColor
 import eu.golovkov.ackeeram.ui.theme.RAMPadding
@@ -63,7 +63,7 @@ fun CharactersScreen(
     Characters(
         stateHolder = viewModel,
         onCharacterClick = { characterId ->
-            navigator.navigate(CharactersDetailsScreenDestination(characterId))
+            navigator.navigate(CharacterDetailsScreenDestination(characterId))
         }
     )
 }

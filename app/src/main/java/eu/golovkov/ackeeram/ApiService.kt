@@ -1,5 +1,6 @@
 package eu.golovkov.ackeeram
 
+import eu.golovkov.ackeeram.model.CharacterRAMDerails
 import eu.golovkov.ackeeram.model.CharacterResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -16,10 +17,10 @@ import kotlinx.serialization.json.Json
 
 interface ApiService {
     suspend fun getCharacters(page: Int): CharacterResponse
-    suspend fun getCharacter(id: Int): Character
+    suspend fun getCharacterDetails(id: Int): CharacterRAMDerails
 
     companion object {
-        val json = Json {
+        private val json = Json {
             ignoreUnknownKeys = true
             prettyPrint = true
             isLenient = true

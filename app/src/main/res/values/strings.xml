@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">AckeeRAM</string>
+    <string name="undefined">-</string>
     <string name="generic_error_message">Something went wrong</string>
     <string name="characters_title">Characters</string>
     <string name="characters_empty_result">No characters has been found</string>
     <string name="favorites_title">Favorites</string>
-    <string name="characters_details_title">Characters details</string>
+    <string name="characters_details_title">Character details</string>
+    <string name="characters_details_name_label">Name</string>
+    <string name="characters_details_status_label">Status</string>
+    <string name="characters_details_species_label">Species</string>
+    <string name="characters_details_type_label">Type</string>
+    <string name="characters_details_gender_label">Gender</string>
+    <string name="characters_details_origin_label">Origin</string>
+    <string name="characters_location_label">Location</string>
     <string name="bottom_bar_characters_title">Characters</string>
     <string name="bottom_bar_favorites_title">Favorites</string>
 </resources>

@@ -10,4 +10,5 @@ object RAMPadding {
     val bigger = 32.dp
     val large = 48.dp
     val huge = 64.dp
+    val massive = 128.dp
 }

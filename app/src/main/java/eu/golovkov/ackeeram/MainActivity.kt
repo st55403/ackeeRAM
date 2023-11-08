@@ -49,7 +49,6 @@ private fun App() {
     ) { paddingValues ->
         DestinationsNavHost(
             navGraph = NavGraphs.root,
-            startRoute = NavGraphs.root.startRoute,
             engine = engine,
             navController = navController,
             modifier = Modifier.padding(paddingValues)
