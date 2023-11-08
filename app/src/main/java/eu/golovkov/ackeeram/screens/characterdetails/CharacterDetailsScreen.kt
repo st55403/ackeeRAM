@@ -109,7 +109,8 @@ private fun CharacterDetails(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(RAMPadding.medium)
+                        .padding(horizontal = RAMPadding.medium)
+                        .padding(top = RAMPadding.medium)
                 ) {
                     AsyncImage(
                         model = character.image,
