@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,8 +27,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -102,11 +103,7 @@ private fun Characters(
             },
             modifier = Modifier.padding(it)
         ) {
-            val backgroundColor = if (isSystemInDarkTheme()) {
-                RAMColor.backgroundsSecondaryDm
-            } else {
-                RAMColor.foregroundsPrimaryDm
-            }
+            val isDarkTheme = isSystemInDarkTheme()
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -119,7 +116,7 @@ private fun Characters(
                             item {
                                 CharacterItem(
                                     character = transactions[index] as CharacterRAM,
-                                    backgroundColor = backgroundColor
+                                    isDarkTheme = isDarkTheme,
                                 )
                             }
                         }
@@ -145,9 +142,19 @@ private fun Characters(
 @Composable
 fun CharacterItem(
     modifier: Modifier = Modifier,
-    backgroundColor: Color,
     character: CharacterRAM,
+    isDarkTheme: Boolean,
 ) {
+    val backgroundColor = if (isDarkTheme) {
+        RAMColor.backgroundsSecondaryDm
+    } else {
+        RAMColor.foregroundsPrimaryDm
+    }
+    val iconTintColor = if (isDarkTheme) {
+        RAMColor.iconsTertiaryDm
+    } else {
+        RAMColor.iconsTertiary
+    }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -172,12 +179,26 @@ fun CharacterItem(
                 .padding(RAMPadding.small),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = character.name,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-                style = MaterialTheme.typography.displayMedium
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = character.name,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.displayMedium
+                )
+                if (character.isFavorite) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_favorites),
+                        contentDescription = null,
+                        modifier = modifier
+                            .padding(horizontal = RAMPadding.tiny)
+                            .size(RAMPadding.medium),
+                        tint = iconTintColor,
+                    )
+                }
+            }
             Text(
                 text = character.status,
                 color = RAMColor.foregroundsSecondary,

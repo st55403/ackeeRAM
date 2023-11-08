@@ -16,6 +16,7 @@ data class CharacterRAM(
     val name: String,
     val status: String,
     val image: String,
+    val isFavorite: Boolean = false,
 )
 
 @Serializable
