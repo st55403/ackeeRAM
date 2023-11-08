@@ -1,5 +1,6 @@
 package eu.golovkov.ackeeram
 
+import eu.golovkov.ackeeram.model.CharacterResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -14,7 +15,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 interface ApiService {
-    suspend fun getCharacters(): List<Character>
+    suspend fun getCharacters(page: Int): CharacterResponse
     suspend fun getCharacter(id: Int): Character
 
     companion object {

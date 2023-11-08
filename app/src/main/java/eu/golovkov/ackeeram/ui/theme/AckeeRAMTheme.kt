@@ -14,12 +14,14 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = RAMColor.accentPrimaryDm,
     onSecondaryContainer = RAMColor.iconsTertiaryDm,
+    background = RAMColor.backgroundsPrimaryDm,
     surface = RAMColor.backgroundsPrimaryDm,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = RAMColor.accentPrimary,
     onSecondaryContainer = RAMColor.iconsTertiary,
+    background = RAMColor.backgroundsPrimary,
     surface = RAMColor.backgroundsPrimary,
 )
 

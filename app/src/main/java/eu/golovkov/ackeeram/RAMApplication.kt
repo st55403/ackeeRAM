@@ -6,11 +6,12 @@ class RAMApplication : Application() {
 
     companion object {
         lateinit var instance: RAMApplication
+        const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 
     private var _apiService: ApiService? = null
     val apiService: ApiService by lazy {
-        _apiService ?: ApiService.create("https://rickandmortyapi.com/api/")
+        _apiService ?: ApiService.create(BASE_URL)
             .also { _apiService = it }
     }
 

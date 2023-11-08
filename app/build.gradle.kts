@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.serialization)
     alias(libs.plugins.ksp)
 }
 
@@ -64,6 +65,7 @@ dependencies {
     implementation(libs.compose.destination.core)
     implementation(libs.bundles.ktor)
     implementation(libs.paging.compose)
+    implementation(libs.coil)
     ksp(libs.compose.destination.ksp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
