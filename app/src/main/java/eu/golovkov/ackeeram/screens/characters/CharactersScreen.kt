@@ -2,6 +2,7 @@ package eu.golovkov.ackeeram.screens.characters
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,10 +40,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.ackeeram.R
 import eu.golovkov.ackeeram.StatefulLayout
 import eu.golovkov.ackeeram.asData
 import eu.golovkov.ackeeram.model.CharacterRAM
+import eu.golovkov.ackeeram.screens.destinations.CharactersDetailsScreenDestination
 import eu.golovkov.ackeeram.ui.theme.AckeeRAMTheme
 import eu.golovkov.ackeeram.ui.theme.RAMColor
 import eu.golovkov.ackeeram.ui.theme.RAMPadding
@@ -53,10 +56,15 @@ import kotlinx.coroutines.flow.flowOf
 @RootNavGraph(start = true)
 @Destination()
 @Composable
-fun CharactersScreen() {
+fun CharactersScreen(
+    navigator: DestinationsNavigator,
+) {
     val viewModel: CharactersViewModel = viewModel()
     Characters(
         stateHolder = viewModel,
+        onCharacterClick = { characterId ->
+            navigator.navigate(CharactersDetailsScreenDestination(characterId))
+        }
     )
 }
 
@@ -64,6 +72,7 @@ fun CharactersScreen() {
 @Composable
 private fun Characters(
     stateHolder: CharactersStateHolder,
+    onCharacterClick: (Int) -> Unit = {},
 ) {
     val state = stateHolder.state.collectAsState().value
     val transactions = state.asData()?.characters?.collectAsLazyPagingItems() ?: return
@@ -114,9 +123,11 @@ private fun Characters(
                     when (transactions.peek(index)) {
                         is CharacterRAM -> {
                             item {
+                                val character = transactions[index] as CharacterRAM
                                 CharacterItem(
-                                    character = transactions[index] as CharacterRAM,
+                                    character = character,
                                     isDarkTheme = isDarkTheme,
+                                    onClick = { onCharacterClick(character.id) }
                                 )
                             }
                         }
@@ -144,6 +155,7 @@ fun CharacterItem(
     modifier: Modifier = Modifier,
     character: CharacterRAM,
     isDarkTheme: Boolean,
+    onClick: () -> Unit = {},
 ) {
     val backgroundColor = if (isDarkTheme) {
         RAMColor.backgroundsSecondaryDm
@@ -163,6 +175,7 @@ fun CharacterItem(
                 color = backgroundColor,
                 shape = RoundedCornerShape(RAMPadding.small)
             )
+            .clickable { onClick() },
     ) {
         AsyncImage(
             model = character.image,

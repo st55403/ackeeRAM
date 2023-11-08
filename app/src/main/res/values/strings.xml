@@ -4,6 +4,7 @@
     <string name="characters_title">Characters</string>
     <string name="characters_empty_result">No characters has been found</string>
     <string name="favorites_title">Favorites</string>
+    <string name="characters_details_title">Characters details</string>
     <string name="bottom_bar_characters_title">Characters</string>
     <string name="bottom_bar_favorites_title">Favorites</string>
 </resources>

@@ -1,4 +1,4 @@
-package eu.golovkov.ackeeram.screens.favorites
+package eu.golovkov.ackeeram.screens.charactersdetails
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
@@ -16,19 +16,23 @@ import eu.golovkov.ackeeram.R
 
 @Destination()
 @Composable
-fun FavoritesScreen() {
-    Favorites()
+fun CharactersDetailsScreen(
+    characterId: Int
+) {
+    CharactersDetails(
+        characterId = characterId
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Favorites() {
+private fun CharactersDetails(characterId: Int) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.favorites_title),
+                        text = stringResource(R.string.characters_details_title),
                         style = MaterialTheme.typography.displayLarge
                     )
                 }
@@ -36,15 +40,16 @@ private fun Favorites() {
         }
     ) {
         Text(
-            text = stringResource(R.string.favorites_title),
+            text = "$characterId",
             modifier = Modifier.padding(it)
         )
     }
 }
 
+
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun FavoritesPreview() {
+private fun CharactersDetailsPreview() {
 
 }
