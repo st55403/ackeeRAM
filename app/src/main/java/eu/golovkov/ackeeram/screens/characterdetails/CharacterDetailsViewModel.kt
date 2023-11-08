@@ -15,7 +15,7 @@ class CharacterDetailsViewModel(
     characterId: Int,
 ) : ViewModel(), CharacterDetailsStateHolder {
     private val mutableState: MutableStateFlow<CharacterDetailsStateHolder.State> =
-        MutableStateFlow(CharacterDetailsStateHolder.State.Loading)
+        MutableStateFlow(CharacterDetailsStateHolder.State.Data())
     override val state: StateFlow<CharacterDetailsStateHolder.State> = mutableState.asStateFlow()
 
     init {
