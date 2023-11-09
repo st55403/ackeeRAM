@@ -6,6 +6,7 @@
     <string name="characters_title">Characters</string>
     <string name="characters_empty_result">No characters has been found</string>
     <string name="favorites_title">Favorites</string>
+    <string name="favorites_empty_message">No favorites yet</string>
     <string name="characters_details_title">Character details</string>
     <string name="characters_details_name_label">Name</string>
     <string name="characters_details_status_label">Status</string>

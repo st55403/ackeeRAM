@@ -85,7 +85,6 @@ fun CharactersScreen(
     Characters(
         stateHolder = viewModel,
         onCharacterClick = { characterId ->
-            // TODO: navigate for a result probably
             navigator.navigate(CharacterDetailsScreenDestination(characterId))
         }
     )

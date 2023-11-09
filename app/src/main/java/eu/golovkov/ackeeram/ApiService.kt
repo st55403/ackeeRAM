@@ -1,5 +1,6 @@
 package eu.golovkov.ackeeram
 
+import eu.golovkov.ackeeram.model.CharacterRAM
 import eu.golovkov.ackeeram.model.CharacterRAMDerails
 import eu.golovkov.ackeeram.model.CharacterResponse
 import io.ktor.client.HttpClient
@@ -18,6 +19,7 @@ import kotlinx.serialization.json.Json
 interface ApiService {
     suspend fun getCharacters(page: Int, name: String? = null): CharacterResponse
     suspend fun getCharacterDetails(id: Int): CharacterRAMDerails
+    suspend fun getFavorites(savedIds: List<Int>): List<CharacterRAM>
 
     companion object {
         private val json = Json {

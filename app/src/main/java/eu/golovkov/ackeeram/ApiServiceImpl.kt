@@ -1,5 +1,6 @@
 package eu.golovkov.ackeeram
 
+import eu.golovkov.ackeeram.model.CharacterRAM
 import eu.golovkov.ackeeram.model.CharacterRAMDerails
 import eu.golovkov.ackeeram.model.CharacterResponse
 import io.ktor.client.HttpClient
@@ -20,4 +21,7 @@ class ApiServiceImpl(
 
     override suspend fun getCharacterDetails(id: Int): CharacterRAMDerails =
         client.get("character/$id").body()
+
+    override suspend fun getFavorites(savedIds: List<Int>): List<CharacterRAM> =
+        client.get("character/$savedIds").body()
 }
