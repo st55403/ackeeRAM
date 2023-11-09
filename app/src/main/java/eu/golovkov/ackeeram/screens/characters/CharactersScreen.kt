@@ -49,6 +49,7 @@ import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import eu.golovkov.ackeeram.R
 import eu.golovkov.ackeeram.RAMSearchField
+import eu.golovkov.ackeeram.Samples
 import eu.golovkov.ackeeram.StatefulLayout
 import eu.golovkov.ackeeram.asData
 import eu.golovkov.ackeeram.model.CharacterRAM
@@ -291,38 +292,7 @@ private fun CharactersPreview() {
                         CharactersStateHolder.State.Data(
                             characters = flowOf(
                                 PagingData.from(
-                                    listOf(
-                                        CharacterRAM(
-                                            1,
-                                            "Supercalifragilisticexpialidocious",
-                                            "Active",
-                                            "https://example.com/character1.png"
-                                        ),
-                                        CharacterRAM(
-                                            2,
-                                            "Hippopotomonstrosesquippedaliophobia",
-                                            "Inactive",
-                                            "https://example.com/character2.png"
-                                        ),
-                                        CharacterRAM(
-                                            3,
-                                            "Pneumonoultramicroscopicsilicovolcanoconiosis",
-                                            "Active",
-                                            "https://example.com/character3.png"
-                                        ),
-                                        CharacterRAM(
-                                            4,
-                                            "Floccinaucinihilipilification",
-                                            "Active",
-                                            "https://example.com/character4.png"
-                                        ),
-                                        CharacterRAM(
-                                            5,
-                                            "Antidisestablishmentarianism",
-                                            "Inactive",
-                                            "https://example.com/character5.png"
-                                        )
-                                    )
+                                    Samples.characters
                                 )
                             )
                         )

@@ -22,8 +22,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.ackeeram.R
+import eu.golovkov.ackeeram.Samples
 import eu.golovkov.ackeeram.StatefulLayout
-import eu.golovkov.ackeeram.model.CharacterRAM
 import eu.golovkov.ackeeram.screens.characters.CharacterItem
 import eu.golovkov.ackeeram.screens.destinations.CharacterDetailsScreenDestination
 import eu.golovkov.ackeeram.ui.theme.AckeeRAMTheme
@@ -113,26 +113,7 @@ private fun FavoritesPreview() {
                 override val state: StateFlow<FavoritesStateHolder.State> =
                     MutableStateFlow(
                         FavoritesStateHolder.State.Data(
-                            characters = listOf(
-                                CharacterRAM(
-                                    1,
-                                    "Supercalifragilisticexpialidocious",
-                                    "Active",
-                                    "https://example.com/character1.png"
-                                ),
-                                CharacterRAM(
-                                    2,
-                                    "Hippopotomonstrosesquippedaliophobia",
-                                    "Inactive",
-                                    "https://example.com/character2.png"
-                                ),
-                                CharacterRAM(
-                                    3,
-                                    "Pneumonoultramicroscopicsilicovolcanoconiosis",
-                                    "Active",
-                                    "https://example.com/character3.png"
-                                ),
-                            )
+                            characters = Samples.characters
                         )
                     )
             }
