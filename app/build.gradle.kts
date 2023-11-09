@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.compose.destination.core)
     implementation(libs.bundles.ktor)
+    implementation(libs.bundles.datastore)
     implementation(libs.paging.compose)
     implementation(libs.coil)
     ksp(libs.compose.destination.ksp)

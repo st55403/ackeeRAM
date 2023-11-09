@@ -13,6 +13,7 @@ activity-compose = "1.8.0"
 compose-bom = "2023.08.00"
 compose-destinations = "1.9.54"
 coil = "2.5.0"
+datastore = "1.0.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -32,6 +33,8 @@ material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-destination-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "compose-destinations" }
 compose-destination-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "compose-destinations" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -50,6 +53,10 @@ ktor = [
     "ktor-client-logging",
     "ktor-client-serialization",
     "ktor-serialization-kotlinx-json",
+]
+datastore = [
+    "datastore",
+    "datastore-preferences",
 ]
 
 [plugins]

@@ -6,13 +6,14 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,12 +23,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.ackeeram.R
 import eu.golovkov.ackeeram.StatefulLayout
 import eu.golovkov.ackeeram.asData
@@ -43,24 +46,28 @@ import kotlinx.coroutines.flow.StateFlow
 @Destination()
 @Composable
 fun CharacterDetailsScreen(
-    characterId: Int
+    navigator: DestinationsNavigator,
+    characterId: Int,
 ) {
     val viewModel: CharacterDetailsViewModel = viewModel(
         factory = CharacterDetailsViewModel.Factory(characterId)
     )
     CharacterDetails(
-        stateHolder = viewModel
+        stateHolder = viewModel,
+        onBackClick = { navigator.popBackStack() }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CharacterDetails(
-    stateHolder: CharacterDetailsStateHolder
+    stateHolder: CharacterDetailsStateHolder,
+    onBackClick: () -> Unit = {},
 ) {
     val state = stateHolder.state.collectAsState().value
     val isDarkTheme = isSystemInDarkTheme()
     val name = state.asData()?.character?.name
+    val isFavorite = state.asData()?.isFavorite
 
     Scaffold(
         topBar = {
@@ -74,6 +81,39 @@ private fun CharacterDetails(
                         },
                         style = MaterialTheme.typography.displayLarge
                     )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBackClick
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_back),
+                            contentDescription = null,
+                            tint = RAMColor.foregroundsPrimary
+                        )
+                    }
+                },
+                actions = {
+                    isFavorite?.let {
+                        IconButton(
+                            onClick = stateHolder::changeFavorite
+                        ) {
+                            val icon = if (isFavorite) {
+                                R.drawable.ic_favorites
+                            } else {
+                                R.drawable.ic_favorite_empty
+                            }
+                            Icon(
+                                painter = painterResource(icon),
+                                contentDescription = null,
+                                tint = if (isFavorite) {
+                                    RAMColor.accentPrimary
+                                } else {
+                                    RAMColor.foregroundsSecondary
+                                }
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -94,7 +134,7 @@ private fun CharacterDetails(
             val character = state.asData()?.character ?: return@StatefulLayout
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(RAMPadding.small)
                     .background(
                         color = if (isDarkTheme) {
@@ -154,7 +194,8 @@ private fun CharacterDetails(
                 )
                 CardItem(
                     label = R.string.characters_location_label,
-                    value = character.location.name
+                    value = character.location.name,
+                    modifier = Modifier.padding(bottom = RAMPadding.medium)
                 )
             }
         }

@@ -5,14 +5,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import eu.golovkov.ackeeram.StatefulLayoutState
 import eu.golovkov.ackeeram.app
+import eu.golovkov.ackeeram.asData
 import eu.golovkov.ackeeram.model.CharacterRAMDerails
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class CharacterDetailsViewModel(
-    characterId: Int,
+    private val characterId: Int,
 ) : ViewModel(), CharacterDetailsStateHolder {
     private val mutableState: MutableStateFlow<CharacterDetailsStateHolder.State> =
         MutableStateFlow(CharacterDetailsStateHolder.State.Data())
@@ -26,12 +28,26 @@ class CharacterDetailsViewModel(
         mutableState.value = CharacterDetailsStateHolder.State.Loading
         viewModelScope.launch {
             mutableState.value = try {
+                val isFavorite = app.dataStoreRepository.getIds().first().contains(characterId)
                 val result = app.apiService.getCharacterDetails(characterId)
                 CharacterDetailsStateHolder.State.Data(
-                    character = result
+                    character = result,
+                    isFavorite = isFavorite
                 )
             } catch (e: Exception) {
                 CharacterDetailsStateHolder.State.Message.Error(e.message)
+            }
+        }
+    }
+
+    override fun changeFavorite() {
+        val dataState = state.value.asData() ?: return
+        viewModelScope.launch {
+            try {
+                app.dataStoreRepository.updateIds(characterId)
+                mutableState.value = dataState.copy(isFavorite = !dataState.isFavorite)
+            } catch (e: Exception) {
+                mutableState.value = CharacterDetailsStateHolder.State.Message.Error(e.message)
             }
         }
     }
@@ -47,6 +63,7 @@ interface CharacterDetailsStateHolder : CharacterDetailsTransformer {
     sealed interface State : StatefulLayoutState<State.Data, State.Message, State.Loading> {
         data class Data(
             val character: CharacterRAMDerails? = null,
+            val isFavorite: Boolean = false,
         ) : State, StatefulLayoutState.Data
 
         sealed interface Message : State, StatefulLayoutState.Message {
@@ -60,5 +77,5 @@ interface CharacterDetailsStateHolder : CharacterDetailsTransformer {
 }
 
 interface CharacterDetailsTransformer {
-    fun saveAsFavourite() {}
+    fun changeFavorite() {}
 }

@@ -1,6 +1,7 @@
 package eu.golovkov.ackeeram
 
 import android.app.Application
+import eu.golovkov.ackeeram.repository.DataStorePreferenceRepository
 
 class RAMApplication : Application() {
 
@@ -8,6 +9,8 @@ class RAMApplication : Application() {
         lateinit var instance: RAMApplication
         const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
+
+    val dataStoreRepository by lazy { DataStorePreferenceRepository() }
 
     private var _apiService: ApiService? = null
     val apiService: ApiService by lazy {
