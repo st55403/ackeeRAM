@@ -1,6 +1,7 @@
 package eu.golovkov.ackeeram.screens.characters
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -15,9 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,6 +46,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.ackeeram.R
+import eu.golovkov.ackeeram.RAMSearchField
 import eu.golovkov.ackeeram.StatefulLayout
 import eu.golovkov.ackeeram.asData
 import eu.golovkov.ackeeram.model.CharacterRAM
@@ -60,12 +65,22 @@ fun CharactersScreen(
     navigator: DestinationsNavigator,
 ) {
     val viewModel: CharactersViewModel = viewModel()
+
+    LaunchedEffect(viewModel.navigateBackEvent) {
+        viewModel.navigateBackEvent.collect {
+            navigator.popBackStack()
+        }
+    }
+
     Characters(
         stateHolder = viewModel,
         onCharacterClick = { characterId ->
+            // TODO: navigate for a result probably
             navigator.navigate(CharacterDetailsScreenDestination(characterId))
         }
     )
+
+    BackHandler { viewModel.onBackClick() }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,6 +90,7 @@ private fun Characters(
     onCharacterClick: (Int) -> Unit = {},
 ) {
     val state = stateHolder.state.collectAsState().value
+    val searchCharactersQuery = state.asData()?.searchCharactersQuery
     val transactions = state.asData()?.characters?.collectAsLazyPagingItems() ?: return
 
     LaunchedEffect(transactions.loadState, transactions.itemCount) {
@@ -85,10 +101,41 @@ private fun Characters(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = stringResource(R.string.characters_title),
-                        style = MaterialTheme.typography.displayLarge
-                    )
+                    if (searchCharactersQuery != null) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(
+                                onClick = stateHolder::onBackClick
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_back),
+                                    contentDescription = null,
+                                )
+                            }
+                            RAMSearchField(
+                                query = searchCharactersQuery,
+                                searchCharacter = stateHolder::searchCharacters,
+                            )
+                        }
+                    } else {
+                        Text(
+                            text = stringResource(R.string.characters_title),
+                            style = MaterialTheme.typography.displayLarge
+                        )
+                    }
+                },
+                actions = {
+                    if (searchCharactersQuery == null) {
+                        IconButton(
+                            onClick = stateHolder::onSearchClick
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = null,
+                            )
+                        }
+                    }
                 }
             )
         }

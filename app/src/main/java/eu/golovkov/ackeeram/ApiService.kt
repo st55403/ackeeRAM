@@ -16,7 +16,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 interface ApiService {
-    suspend fun getCharacters(page: Int): CharacterResponse
+    suspend fun getCharacters(page: Int, name: String? = null): CharacterResponse
     suspend fun getCharacterDetails(id: Int): CharacterRAMDerails
 
     companion object {

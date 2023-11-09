@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.firstOrNull
 
 class CharactersSource(
     private val apiService: ApiService,
+    private val searchText: String?,
     dataStoreRepository: DataStorePreferenceRepository,
 ) : PagingSource<Int, CharacterRAM>() {
 
@@ -26,7 +27,10 @@ class CharactersSource(
         val page = params.key ?: 1
 
         return try {
-            val response = apiService.getCharacters(page)
+            val response = apiService.getCharacters(
+                page = page,
+                name = searchText,
+            )
             val favoriteIds = favoriteIds.firstOrNull() ?: emptySet()
             val characters = response.results.map { character ->
                 character.copy(isFavorite = favoriteIds.contains(character.id))

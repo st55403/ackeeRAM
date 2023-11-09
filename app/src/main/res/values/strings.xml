@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AckeeRAM</string>
     <string name="undefined">-</string>
+    <string name="search_placeholder">Search…</string>
     <string name="generic_error_message">Something went wrong</string>
     <string name="characters_title">Characters</string>
     <string name="characters_empty_result">No characters has been found</string>

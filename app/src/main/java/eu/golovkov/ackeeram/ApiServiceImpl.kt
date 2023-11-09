@@ -10,9 +10,12 @@ import io.ktor.client.request.parameter
 class ApiServiceImpl(
     private val client: HttpClient
 ) : ApiService {
-    override suspend fun getCharacters(page: Int): CharacterResponse =
+    override suspend fun getCharacters(page: Int, name: String?): CharacterResponse =
         client.get("character") {
             parameter("page", page)
+            if (name != null) {
+                parameter("name", name)
+            }
         }.body()
 
     override suspend fun getCharacterDetails(id: Int): CharacterRAMDerails =
