@@ -45,6 +45,8 @@ import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
 import eu.golovkov.ackeeram.R
 import eu.golovkov.ackeeram.RAMSearchField
 import eu.golovkov.ackeeram.StatefulLayout
@@ -63,8 +65,16 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun CharactersScreen(
     navigator: DestinationsNavigator,
+    resultRecipient: ResultRecipient<CharacterDetailsScreenDestination, Boolean>,
 ) {
     val viewModel: CharactersViewModel = viewModel()
+
+    resultRecipient.onNavResult {
+        when (it) {
+            NavResult.Canceled -> Unit
+            is NavResult.Value -> viewModel.loadCharacters()
+        }
+    }
 
     LaunchedEffect(viewModel.navigateBackEvent) {
         viewModel.navigateBackEvent.collect {

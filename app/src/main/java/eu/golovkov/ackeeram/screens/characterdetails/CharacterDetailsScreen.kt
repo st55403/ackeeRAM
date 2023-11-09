@@ -1,6 +1,7 @@
 package eu.golovkov.ackeeram.screens.characterdetails
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.ResultBackNavigator
 import eu.golovkov.ackeeram.R
 import eu.golovkov.ackeeram.StatefulLayout
 import eu.golovkov.ackeeram.asData
@@ -46,16 +47,27 @@ import kotlinx.coroutines.flow.StateFlow
 @Destination()
 @Composable
 fun CharacterDetailsScreen(
-    navigator: DestinationsNavigator,
     characterId: Int,
+    resultNavigator: ResultBackNavigator<Boolean>,
 ) {
     val viewModel: CharacterDetailsViewModel = viewModel(
         factory = CharacterDetailsViewModel.Factory(characterId)
     )
+
+    val onBackClick = {
+        resultNavigator.navigateBack(
+            result = viewModel.state.value.asData()?.wasChanged ?: false,
+        )
+    }
+
     CharacterDetails(
         stateHolder = viewModel,
-        onBackClick = { navigator.popBackStack() }
+        onBackClick = onBackClick
     )
+
+    BackHandler {
+        onBackClick()
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

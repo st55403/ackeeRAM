@@ -31,7 +31,7 @@ class CharactersViewModel : ViewModel(), CharactersStateHolder {
         loadCharacters()
     }
 
-    private fun loadCharacters(name: String? = null) {
+    fun loadCharacters(name: String? = null) {
         viewModelScope.launch {
             mutableState.value = try {
                 val result = Pager(

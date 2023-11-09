@@ -45,7 +45,10 @@ class CharacterDetailsViewModel(
         viewModelScope.launch {
             try {
                 app.dataStoreRepository.updateIds(characterId)
-                mutableState.value = dataState.copy(isFavorite = !dataState.isFavorite)
+                mutableState.value = dataState.copy(
+                    isFavorite = !dataState.isFavorite,
+                    wasChanged = true,
+                )
             } catch (e: Exception) {
                 mutableState.value = CharacterDetailsStateHolder.State.Message.Error(e.message)
             }
@@ -64,6 +67,7 @@ interface CharacterDetailsStateHolder : CharacterDetailsTransformer {
         data class Data(
             val character: CharacterRAMDerails? = null,
             val isFavorite: Boolean = false,
+            val wasChanged: Boolean = false,
         ) : State, StatefulLayoutState.Data
 
         sealed interface Message : State, StatefulLayoutState.Message {
