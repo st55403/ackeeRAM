@@ -35,7 +35,7 @@ class CharactersViewModel : ViewModel(), CharactersStateHolder {
         viewModelScope.launch {
             mutableState.value = try {
                 val result = Pager(
-                    config = PagingConfig(pageSize = 20, initialLoadSize = 60),
+                    config = PagingConfig(pageSize = 20, initialLoadSize = 20),
                     pagingSourceFactory = {
                         CharactersSource(
                             apiService = app.apiService,
