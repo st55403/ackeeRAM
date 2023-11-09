@@ -30,7 +30,12 @@ class CharactersViewModel : ViewModel(), CharactersStateHolder {
             mutableState.value = try {
                 val result = Pager(
                     config = PagingConfig(pageSize = 15, initialLoadSize = 15),
-                    pagingSourceFactory = { CharactersSource(app.apiService) },
+                    pagingSourceFactory = {
+                        CharactersSource(
+                            apiService = app.apiService,
+                            dataStoreRepository = app.dataStoreRepository,
+                        )
+                    },
                 ).flow.cachedIn(viewModelScope)
                 CharactersStateHolder.State.Data(
                     characters = result

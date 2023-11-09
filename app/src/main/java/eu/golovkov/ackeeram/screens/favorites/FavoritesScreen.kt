@@ -12,11 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import eu.golovkov.ackeeram.R
 
 @Destination()
 @Composable
-fun FavoritesScreen() {
+fun FavoritesScreen(
+    navigator: DestinationsNavigator,
+) {
     Favorites()
 }
 

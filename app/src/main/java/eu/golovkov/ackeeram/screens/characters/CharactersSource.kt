@@ -4,10 +4,16 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import eu.golovkov.ackeeram.ApiService
 import eu.golovkov.ackeeram.model.CharacterRAM
+import eu.golovkov.ackeeram.repository.DataStorePreferenceRepository
+import kotlinx.coroutines.flow.firstOrNull
 
 class CharactersSource(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    dataStoreRepository: DataStorePreferenceRepository,
 ) : PagingSource<Int, CharacterRAM>() {
+
+    private val favoriteIds = dataStoreRepository.getIds()
+
     // TODO: consider to simplify this method
     override fun getRefreshKey(state: PagingState<Int, CharacterRAM>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -21,7 +27,10 @@ class CharactersSource(
 
         return try {
             val response = apiService.getCharacters(page)
-            val characters = response.results
+            val favoriteIds = favoriteIds.firstOrNull() ?: emptySet()
+            val characters = response.results.map { character ->
+                character.copy(isFavorite = favoriteIds.contains(character.id))
+            }
 
             LoadResult.Page(
                 data = characters,
