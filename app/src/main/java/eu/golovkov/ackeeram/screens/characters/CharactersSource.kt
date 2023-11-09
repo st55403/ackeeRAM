@@ -15,13 +15,7 @@ class CharactersSource(
 
     private val favoriteIds = dataStoreRepository.getIds()
 
-    // TODO: consider to simplify this method
-    override fun getRefreshKey(state: PagingState<Int, CharacterRAM>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-        }
-    }
+    override fun getRefreshKey(state: PagingState<Int, CharacterRAM>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterRAM> {
         val page = params.key ?: 1
